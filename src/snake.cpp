@@ -19,6 +19,20 @@ void Snake::Update() {
   }
 }
 
+void Snake::Reborn() {
+  // Initialize states of the snake for reborning
+  if(!alive)
+  {
+    direction = Direction::kUp;
+    speed  = 0.1;
+    size   = 1;
+    alive  = true;
+    head_x = grid_width / 2;
+    head_y = grid_height / 2;
+    body.clear();
+  }
+}
+
 void Snake::UpdateHead() {
   switch (direction) {
     case Direction::kUp:

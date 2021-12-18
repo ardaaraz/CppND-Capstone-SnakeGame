@@ -43,9 +43,12 @@ void Controller::HandleInput(bool &running, bool &paused, Snake &snake) const {
         case SDLK_ESCAPE:
           running = false;
           break;
-        // Pause/Continue game when "Space" is pressed.
+        // When "Space" is pressed, game will be paused/continue if snake is alive. Otherwise, snake will be reborn.
         case SDLK_SPACE:
-          paused = !paused;
+          if(snake.alive)
+            paused = !paused;
+          else
+            snake.Reborn();
           break;
       }
     }
