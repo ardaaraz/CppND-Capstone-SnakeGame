@@ -16,6 +16,7 @@ class Game {
   int GetSize() const;
 
  private:
+  bool paused = false;
   Snake snake;
   SDL_Point food;
 
