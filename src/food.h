@@ -36,8 +36,8 @@ class Food {
   void SetToxicity(bool is_poisoned); 
 
  private:
-  SDL_Point position;    ///< Position of food in a 2-D grid
-  bool poisoned = false; ///< Whether food is poisoned or not
+  SDL_Point position;    // Position of food in a 2-D grid
+  bool poisoned = false; // Whether food is poisoned or not
 };
 
 #endif
