@@ -22,7 +22,9 @@ class Game {
  private:
   bool paused = false;
   Snake snake;
-  std::unique_ptr<Food> food;
+  // std::vector<std::unique_ptr<Food>> food;
+  std::unique_ptr<std::vector<Food>> food;
+
   std::random_device dev;
   std::mt19937 engine;
   std::uniform_int_distribution<int> random_w;

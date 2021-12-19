@@ -38,7 +38,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, std::unique_ptr<Food> const &food) {
+void Renderer::Render(Snake const snake, std::unique_ptr<std::vector<Food>> const &food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -48,15 +48,18 @@ void Renderer::Render(Snake const snake, std::unique_ptr<Food> const &food) {
   SDL_RenderClear(sdl_renderer);
 
   // Render food
-  auto food_pos = food->GetPosition();
-  block.x = food_pos.x * block.w;
-  block.y = food_pos.y * block.h;
-  if(food->isPoisoned()) // Set poisoned food color as red
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
-  else // Set nontoxic food color as green
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF);
-  SDL_RenderFillRect(sdl_renderer, &block);
-
+  auto food_vect = *food;
+  for(const auto& f : food_vect)
+  {
+    auto food_pos = f.GetPosition();
+    block.x = food_pos.x * block.w;
+    block.y = food_pos.y * block.h;
+    if(f.isPoisoned()) // Set poisoned food color as red
+      SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+    else // Set nontoxic food color as green
+      SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF);
+    SDL_RenderFillRect(sdl_renderer, &block);
+  }
   // Render snake's body
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
   for (SDL_Point const &point : snake.body) {

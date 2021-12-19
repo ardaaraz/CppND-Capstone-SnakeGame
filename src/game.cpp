@@ -8,7 +8,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)),
       random_poisoned_food(3, 10) {
-  this->food = std::make_unique<Food> ();
+  this->food = std::make_unique<std::vector<Food>> ();
   PlaceFood();
   poisened_food_score = random_poisoned_food(engine);
 }
@@ -30,6 +30,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     {
       snake.reborn = false;
       score = 0;
+      food.get()->clear();
       PlaceFood(false);
       poisened_food_score = random_poisoned_food(engine);
     }
@@ -68,14 +69,36 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
 void Game::PlaceFood() {
   int x, y;
+  auto f = Food();
   while (true) {
     x = random_w(engine);
     y = random_h(engine);
-    // Check that the location is not occupied by a snake item before placing
+    // Check that the location is not occupied by a snake or another food item before placing
     // food.
-    if (!snake.SnakeCell(x, y)) {
-      food->SetPosition(x, y);
-      return;
+    if(food.get()->size() == 0)
+    {
+      if (!snake.SnakeCell(x, y)) {
+        f.SetPosition(x, y);
+        food.get()->emplace_back(f);
+        return;
+      }
+    }
+    else
+    {
+      bool is_occupied = false;
+      for(auto& f : *food)
+      {
+        auto food_pos = f.GetPosition();
+        if(x == food_pos.x && y == food_pos.y)
+          is_occupied = true;
+          break;
+      }
+      if(!snake.SnakeCell(x, y) && !is_occupied)
+      {
+        f.SetPosition(x, y);
+        food.get()->emplace_back(f);
+        return;
+      }
     }
   }
 }
@@ -83,15 +106,38 @@ void Game::PlaceFood() {
 void Game::PlaceFood(bool is_poisoned)
 {
   int x, y;
+  auto f = Food();
   while (true) {
     x = random_w(engine);
     y = random_h(engine);
-    // Check that the location is not occupied by a snake item before placing
+    // Check that the location is not occupied by a snake or another food item before placing
     // food.
-    if (!snake.SnakeCell(x, y)) {
-      food->SetPosition(x, y);
-      food->SetToxicity(is_poisoned);
-      return;
+    if(food.get()->size() == 0)
+    {
+      if (!snake.SnakeCell(x, y)) {
+        f.SetPosition(x, y);
+        f.SetToxicity(is_poisoned);
+        food.get()->emplace_back(f);
+        return;
+      }
+    }
+    else
+    {
+      bool is_occupied = false;
+      for(auto& f : *food)
+      {
+        auto food_pos = f.GetPosition();
+        if(x == food_pos.x && y == food_pos.y)
+          is_occupied = true;
+          break;
+      }
+      if(!snake.SnakeCell(x, y) && !is_occupied)
+      {
+        f.SetPosition(x, y);
+        f.SetToxicity(is_poisoned);
+        food.get()->emplace_back(f);
+        return;
+      }
     }
   }
 }
@@ -104,25 +150,33 @@ void Game::Update() {
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);
 
-  // Check if there's food over here
-  auto food_pos = food->GetPosition();
-  if (food_pos.x == new_x && food_pos.y == new_y) {
-    if(food->isPoisoned())
-    {
-      snake.alive = false;
-      return;
+  for(auto& f : *food)
+  {
+    // Check if there's food over here
+    auto food_pos = f.GetPosition();
+    if (food_pos.x == new_x && food_pos.y == new_y) {
+      food.get()->clear();
+      if(f.isPoisoned())
+      {
+        snake.alive = false;
+        return;
+      }
+      else
+      {
+        score++;
+        if(score == poisened_food_score)
+        {
+          poisened_food_score += random_poisoned_food(engine);
+          PlaceFood(true);
+        }
+        SetTopScore();
+        PlaceFood();
+        // Grow snake and increase speed.
+        snake.GrowBody();
+        snake.speed += 0.02;
+      }
+      break; 
     }
-    score++;
-    if(score == poisened_food_score)
-    {
-      poisened_food_score += random_poisoned_food(engine);
-      PlaceFood(true);
-    }
-    SetTopScore();
-    PlaceFood();
-    // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.speed += 0.02;
   }
 }
 
