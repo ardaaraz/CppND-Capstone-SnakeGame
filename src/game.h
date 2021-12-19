@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <random>
+#include <memory>
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
@@ -19,7 +20,7 @@ class Game {
  private:
   bool paused = false;
   Snake snake;
-  Food food;
+  std::unique_ptr<Food> food;
 
   std::random_device dev;
   std::mt19937 engine;

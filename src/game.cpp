@@ -7,6 +7,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
+  this->food = std::make_unique<Food> ();
   PlaceFood();
 }
 
@@ -62,7 +63,7 @@ void Game::PlaceFood() {
     // Check that the location is not occupied by a snake item before placing
     // food.
     if (!snake.SnakeCell(x, y)) {
-      food.SetPosition(x, y);
+      food->SetPosition(x, y);
       return;
     }
   }
@@ -77,7 +78,7 @@ void Game::Update() {
   int new_y = static_cast<int>(snake.head_y);
 
   // Check if there's food over here
-  auto food_pos = food.GetPosition();
+  auto food_pos = food->GetPosition();
   if (food_pos.x == new_x && food_pos.y == new_y) {
     score++;
     PlaceFood();
