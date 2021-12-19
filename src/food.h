@@ -28,6 +28,12 @@ class Food {
    * @return false if food is not poisoned
    */
   bool isPoisoned() const;
+  /**
+   * @brief Set the toxicity of food
+   * 
+   * @param is_poisoned true if the food is toxic
+   */
+  void SetToxicity(bool& is_poisoned); 
 
  private:
   SDL_Point position;    ///< Position of food in a 2-D grid

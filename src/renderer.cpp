@@ -48,10 +48,13 @@ void Renderer::Render(Snake const snake, std::unique_ptr<Food> const &food) {
   SDL_RenderClear(sdl_renderer);
 
   // Render food
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
   auto food_pos = food->GetPosition();
   block.x = food_pos.x * block.w;
   block.y = food_pos.y * block.h;
+  if(food->isPoisoned()) // Set poisoned food color as red
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+  else // Set nontoxic food color as green
+    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF);
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render snake's body

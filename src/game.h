@@ -23,16 +23,19 @@ class Game {
   bool paused = false;
   Snake snake;
   std::unique_ptr<Food> food;
-
   std::random_device dev;
   std::mt19937 engine;
   std::uniform_int_distribution<int> random_w;
   std::uniform_int_distribution<int> random_h;
+  std::uniform_int_distribution<int> random_poisoned_food;
 
   int score{0};
   int top_score{0};
 
+  int poisened_food_score;
+
   void PlaceFood();
+  void PlaceFood(bool is_poisoned);
   void Update();
 };
 
