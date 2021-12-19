@@ -22,6 +22,13 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
   while (running) {
     frame_start = SDL_GetTicks();
+  
+    // Check whether snake is reborn or not
+    if(snake.reborn)
+    {
+      snake.reborn = false;
+      score = 0;
+    }
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, paused, snake);
@@ -41,7 +48,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(score, top_score, frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -81,6 +88,7 @@ void Game::Update() {
   auto food_pos = food->GetPosition();
   if (food_pos.x == new_x && food_pos.y == new_y) {
     score++;
+    SetTopScore();
     PlaceFood();
     // Grow snake and increase speed.
     snake.GrowBody();
@@ -89,4 +97,7 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
+int Game::GetTopScore() const { return top_score; }
 int Game::GetSize() const { return snake.size; }
+
+void Game::SetTopScore() { top_score = (score > top_score) ? score : top_score; }

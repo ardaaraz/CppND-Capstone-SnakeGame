@@ -27,6 +27,7 @@ void Snake::Reborn() {
     speed  = 0.1;
     size   = 1;
     alive  = true;
+    reborn = true;
     head_x = grid_width / 2;
     head_y = grid_height / 2;
     body.clear();

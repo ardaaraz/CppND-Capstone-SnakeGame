@@ -15,7 +15,9 @@ class Game {
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
   int GetScore() const;
+  int GetTopScore() const;
   int GetSize() const;
+  void SetTopScore(); 
 
  private:
   bool paused = false;
@@ -28,6 +30,7 @@ class Game {
   std::uniform_int_distribution<int> random_h;
 
   int score{0};
+  int top_score{0};
 
   void PlaceFood();
   void Update();
