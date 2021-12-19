@@ -38,7 +38,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, std::unique_ptr<std::vector<Food>> const &food) {
+void Renderer::Render(Snake const &snake, std::unique_ptr<std::vector<Food>> const &food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -82,7 +82,7 @@ void Renderer::Render(Snake const snake, std::unique_ptr<std::vector<Food>> cons
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int& score, int& top_score, int& fps) {
+void Renderer::UpdateWindowTitle(const int& score, const int& top_score, const int& fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " Top Score: " + std::to_string(top_score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }

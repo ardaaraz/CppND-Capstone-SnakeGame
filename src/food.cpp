@@ -13,6 +13,6 @@ bool Food::isPoisoned() const {
     return this->poisoned;
 }
 
-void Food::SetToxicity(bool& is_poisoned) {
+void Food::SetToxicity(bool is_poisoned) {
     this->poisoned = is_poisoned;
 }

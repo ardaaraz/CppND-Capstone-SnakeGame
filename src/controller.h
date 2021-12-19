@@ -8,8 +8,8 @@ class Controller {
   void HandleInput(bool &running, bool &paused, Snake &snake) const;
 
  private:
-  void ChangeDirection(Snake &snake, Snake::Direction input,
-                       Snake::Direction opposite) const;
+  void ChangeDirection(Snake &snake, const Snake::Direction &input,
+                       const Snake::Direction &opposite) const;
 };
 
 #endif

@@ -33,7 +33,7 @@ class Food {
    * 
    * @param is_poisoned true if the food is toxic
    */
-  void SetToxicity(bool& is_poisoned); 
+  void SetToxicity(bool is_poisoned); 
 
  private:
   SDL_Point position;    ///< Position of food in a 2-D grid
