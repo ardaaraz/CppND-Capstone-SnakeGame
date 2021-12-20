@@ -50,7 +50,7 @@ Finally in `main.cpp` file, **Controller**, **Renderer** and **Game** objects ar
 | Rubric Point | Explanation |
 | ------------ | ----------- |
 | The project demonstrates an understanding of C++ functions and control structures. | Functionalities of the each classes are implemented as C++ functions to clearly organized code structure. |
-| The project accepts input from a user as part of the necessary operation of the program. | In [controller.cpp] (https://github.com/ardaaraz/CppND-Capstone-SnakeGame/blob/e3bb0fc5ee9feaedac17a40b5bd3bdeac1bf3fcb/src/controller.cpp#L12) `HandleInput()` method handles user input from keybord. |
+| The project accepts input from a user as part of the necessary operation of the program. | In [controller.h](https://github.com/ardaaraz/CppND-Capstone-SnakeGame/blob/f53e1e3889c4cd645f7cf82f1e5d77f89997d89d/src/controller.h#L15) `HandleInput()` method handles user input from keybord. |
 
 ### Object Oriented Programming
 | Rubric Point | Explanation |
